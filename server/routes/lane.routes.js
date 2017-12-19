@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import * as LaneController from '../controllers/lane.controller';
+import noteRouter from './note.routes';
 
 const router = new Router();
 
@@ -8,5 +9,11 @@ router.route('/lanes').get(LaneController.getLanes);
 
 // Add a new Lane
 router.route('/lanes').post(LaneController.addLane);
+
+// Delete a lane by laneId
+router.route('/lanes/:laneId').delete(LaneController.deleteLane);
+
+router.use('/lanes/:laneId/', noteRouter);
+router.route('/lanes/:laneId').put(LaneController.renameLane);
 
 export default router;
