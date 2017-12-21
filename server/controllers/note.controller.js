@@ -39,6 +39,19 @@ export function renameNote(req, res) {
   });
 }
 
+export function editNote(req, res)  {
+  const note = req.body;
+  if(!note.id || !note.task) {
+    res.status(403).end();
+  }
+  Note.findOneAndUpdate({id: note.id}, note, {new: true}, (err, updated) => {
+    if(err) {
+      res.status(500).send(err);
+    }
+    res.json(updated);
+  })
+}
+
 export function deleteNote(req, res) {
   Note.findOne({ id: req.params.taskId }).exec((err, note) => {
     if (err) {

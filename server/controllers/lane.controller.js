@@ -41,6 +41,19 @@ export function renameLane(req, res) {
   });
 }
 
+export function editLane(req, res) {
+  const lane = req.body;
+  if(!lane.id ) {
+    res.status(403).end();
+  }
+  Lane.findOneAndUpdate({id: lane.id}, lane, {new: true}, (err, updated) => {
+    if(err) {
+      res.status(500).send(err);
+    }
+    res.json(updated);
+  })
+}
+
 export function deleteLane(req, res) {
   Lane.findOne({ id: req.params.laneId }).exec((err, lane) => {
     if (err) {
